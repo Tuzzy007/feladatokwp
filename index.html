@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>feladatok</title>
+    <style>
+        .szam {
+            font-size: 24px;
+            display: inline-block; 
+            padding: 5px 10px; 
+            margin: 10px; 
+            background-color: #eee;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 10px;
+        }
+        td {
+            width: 50px;
+            height: 50px;
+            border: 1px solid black;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .hidden {
+            display: none;
+        }
+        .todo-item {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <center>
+    <span class="szam" id="szam">0</span>
+    <br>
+    <button onclick="valt('+')">+</button>
+    <button onclick="valt('-')">-</button>
+    <br>
+    <table id="kocka">
+        <tr>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>5</td>
+            <td>6</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>8</td>
+            <td>9</td>
+        </tr>
+    </table>
+    <button id="Torles" class="hidden">Újra</button>
+    <br>
+    <input type="text" id="new-task" placeholder="Új termék hozzáadása">
+    <button onclick="addTask()">Hozzáadás</button>
+    <div id="todo-list">
+    </div>
+    </center>
+
+    <script>
+        let szam = 0;
+        const szamE = document.getElementById('szam');
+        const kocka = document.getElementById('kocka');
+        const Torles = document.getElementById('Torles');
+
+        function valt(muv) {
+            if (muv === '+') {
+                szam++;
+            } else if (muv === '-') {
+                szam--;
+            }
+            szamE.textContent = szam;
+        }
+
+        kocka.addEventListener('click', function(event) {
+            if (event.target.tagName === 'TD') {
+                event.target.classList.add('hidden');
+                Torles.classList.remove('hidden');
+            }
+        });
+
+        Torles.addEventListener('click', function() {
+            const tds = kocka.getElementsByTagName('td');
+            for (let i = 0; i < tds.length; i++) {
+                tds[i].classList.remove('hidden');
+            }
+            Torles.classList.add('hidden');
+        });
+
+        function addTask() {
+            var task = document.getElementById('new-task').value;
+            var list = document.getElementById('todo-list');
+            var item = document.createElement('div');
+            item.innerHTML = `
+                <input type="checkbox">
+                <label>${task}</label>
+                <button onclick="this.parentNode.remove()">X</button>
+            `;
+            list.appendChild(item);
+            document.getElementById('new-task').value = '';
+        }
+    </script>
+</body>
+</html>
